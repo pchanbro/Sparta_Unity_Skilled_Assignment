@@ -21,14 +21,19 @@ public class PlayerController : MonoBehaviour
     public float lookSensitivity;
     private Vector2 mouseDelta;
 
+    public Interaction interaction;
+
+    private Coroutine buff;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
+        interaction = GetComponent<Interaction>();
     }
 
     void Start()
     {
-        
+        CharacterManager.Instance.Player.useItem += ChangeStatByItem;
     }
 
     // Update is called once per frame
@@ -83,6 +88,14 @@ public class PlayerController : MonoBehaviour
         mouseDelta = context.ReadValue<Vector2>();
     }
 
+    public void OnUse(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Started)
+        {
+            interaction.UseItem();
+        }
+    }
+
     bool IsGround()
     {
         Ray[] rays = new Ray[4]
@@ -101,5 +114,33 @@ public class PlayerController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void ChangeStatByItem()
+    {
+        Debug.Log("실행했냐2");
+        if (CharacterManager.Instance.Player.itemData.Type == ItemType.Consumable)
+        {
+            foreach (ItemDataConsumable itemDataConsumable in CharacterManager.Instance.Player.itemData.consumables)
+            {
+                if (itemDataConsumable.type == ConsumableType.Speed)
+                {
+                    if(buff != null)
+                    {
+                        StopCoroutine(buff);
+                    }
+                    buff = StartCoroutine(Buff(itemDataConsumable.value, itemDataConsumable.duration));
+                }
+            }
+        }
+    }
+
+    private IEnumerator Buff(float buffAmount, float duration)
+    {
+        moveSpeed += buffAmount;
+
+        yield return new WaitForSeconds(buffAmount);
+
+        moveSpeed -= buffAmount;
     }
 }

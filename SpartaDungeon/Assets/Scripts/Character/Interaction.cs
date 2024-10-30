@@ -66,4 +66,15 @@ public class Interaction : MonoBehaviour
             promptText.gameObject.SetActive(false);
         }
     }
+
+    public void UseItem()
+    {
+        if (curInteractable != null)
+        {
+            curInteractable.OnUse();
+            curInteractGameObject = null;
+            curInteractable = null;
+            promptText.gameObject.SetActive(false);
+        }
+    }
 }
