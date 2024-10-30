@@ -7,6 +7,6 @@ public class JumpingBox : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         collision.rigidbody.AddForce(Vector2.up * 10 , ForceMode.Impulse);
-        Debug.Log("«Ǫ");
+        Debug.Log("Jump");
     }
 }
