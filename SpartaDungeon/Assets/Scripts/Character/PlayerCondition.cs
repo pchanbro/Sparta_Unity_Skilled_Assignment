@@ -29,7 +29,6 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
     void ChangeConditionByItem()
     {
-        Debug.Log("실행했냐1");
         if (CharacterManager.Instance.Player.itemData.Type == ItemType.Consumable)
         {
             foreach (ItemDataConsumable itemDataConsumable in CharacterManager.Instance.Player.itemData.consumables)

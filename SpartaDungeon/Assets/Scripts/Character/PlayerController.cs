@@ -90,9 +90,17 @@ public class PlayerController : MonoBehaviour
 
     public void OnUse(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started)
         {
             interaction.UseItem();
+        }
+    }
+
+    public void OnInteractInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            interaction.InteractInput();
         }
     }
 
@@ -118,7 +126,6 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeStatByItem()
     {
-        Debug.Log("실행했냐2");
         if (CharacterManager.Instance.Player.itemData.Type == ItemType.Consumable)
         {
             foreach (ItemDataConsumable itemDataConsumable in CharacterManager.Instance.Player.itemData.consumables)
